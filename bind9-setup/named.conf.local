@@ -1,0 +1,13 @@
+// Local zones for site1.lab (internal)
+
+zone "site1.lab" {
+    type master;
+    file "/etc/bind/db.site1.lab";
+    allow-transfer { none; };  // adjust to allow slave IPs if you add slaves
+};
+
+zone "75.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.192";
+    allow-transfer { none; };
+};
