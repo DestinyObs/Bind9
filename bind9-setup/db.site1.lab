@@ -10,7 +10,7 @@ $TTL    604800
 @               IN      NS      ns1.site1.lab.
 
 ; A records - core hosts
-ns1             IN      A       192.168.75.6    ; Bind9 server (Node3)
+ns1             IN      A       172.16.25.2     ; Bind9 server (DMZ)
 prox1           IN      A       192.168.75.4    ; Proxmox Node 1
 prox2           IN      A       192.168.75.5    ; Proxmox Node 2
 prox3           IN      A       192.168.75.6    ; Proxmox Node 3
@@ -25,7 +25,7 @@ pfsense         IN      A       192.168.75.1    ; pfSense gateway/firewall
 ; prometheus      IN      A       192.168.75.5    ; Prometheus (Node2) - TODO: Deploy
 ; grafana         IN      A       192.168.75.5    ; Grafana (Node2) - TODO: Deploy
 ; ci              IN      A       192.168.75.6    ; CI/CD (Node3) - TODO: Deploy
-dns             IN      A       192.168.75.6    ; DNS server (Node3) - ACTIVE
+dns             IN      A       172.16.25.2     ; DNS server (DMZ)
 ; mssql           IN      A       192.168.75.8    ; MSSQL DB (Node4) - TODO: Deploy
 ; backup          IN      A       192.168.75.8    ; Backup services (Node4) - TODO: Deploy
 
@@ -36,4 +36,4 @@ dns             IN      A       192.168.75.6    ; DNS server (Node3) - ACTIVE
 ; metrics         IN      CNAME   prometheus.site1.lab.
 
 ; Zone apex points to ns1
-@               IN      A       192.168.75.6
+@               IN      A       172.16.25.2

@@ -3,7 +3,8 @@
 acl "trusted" {
     127.0.0.1;
     ::1;
-    192.168.75.0/24;   // internal LAN - adjust if different
+    192.168.75.0/24;   // internal LAN - Proxmox nodes
+    172.16.25.0/24;    // DMZ network
 };
 
 options {
@@ -15,8 +16,8 @@ options {
         8.8.8.8;    // Google
     };
 
-    // Listen on local + internal IP
-    listen-on port 53 { 127.0.0.1; 192.168.75.6; };
+    // Listen on local + DMZ IP
+    listen-on port 53 { 127.0.0.1; 172.16.25.2; };
     listen-on-v6 { none; };
 
     // Restrict who can query & recurse
