@@ -1,0 +1,26 @@
+$TTL    604800
+@       IN      SOA     ns1.hq.cybacad.lab. admin.hq.cybacad.lab. (
+                        2024082601      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+
+; Name servers
+@       IN      NS      ns1.hq.cybacad.lab.
+
+; DNS Server
+ns1     IN      A       172.16.25.2
+
+; Monitoring Stack (Currently Deployed)
+prometheus      IN      A       172.16.10.6
+grafana         IN      A       172.16.10.7
+
+; Convenience aliases
+metrics         IN      CNAME   prometheus
+monitor         IN      CNAME   grafana
+
+; Future services (ready for deployment)
+; wazuh          IN      A       192.168.75.4
+; cicd           IN      A       192.168.75.6
+; db             IN      A       192.168.75.8

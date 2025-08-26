@@ -1,0 +1,32 @@
+$TTL    604800
+@       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
+                        2024082601      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+
+; Name servers
+@       IN      NS      ns1.cybacad.lab.
+
+; Main DNS server
+ns1     IN      A       172.16.25.2
+
+; Core infrastructure
+pfsense IN      A       192.168.75.1
+dns     IN      A       172.16.25.2
+
+; Proxmox nodes
+prox1   IN      A       192.168.75.4
+prox2   IN      A       192.168.75.5
+prox3   IN      A       192.168.75.6
+prox4   IN      A       192.168.75.8
+
+; Convenience aliases - commented out until services are deployed
+; db              IN      CNAME   mssql.site1.lab.
+; sql             IN      CNAME   mssql.site1.lab.
+; monitor         IN      CNAME   grafana.site1.lab.
+; metrics         IN      CNAME   prometheus.site1.lab.
+
+; Zone apex points to ns1
+@               IN      A       172.16.25.2

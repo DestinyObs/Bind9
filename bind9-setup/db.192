@@ -1,21 +1,17 @@
 $TTL    604800
-@       IN      SOA     ns1.site1.lab. admin.site1.lab. (
-                              2025080801 ; Serial
-                                  604800
-                                   86400
-                                 2419200
-                                  604800
+@       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
+                        2024082601      ; Serial
+                        604800
+                        86400
+                        2419200
+                        604800
 )
 
-@       IN      NS      ns1.site1.lab.
+@       IN      NS      ns1.cybacad.lab.
 
 ; PTR records for core hosts
-1       IN      PTR     pfsense.site1.lab.
-4       IN      PTR     prox1.site1.lab.
-5       IN      PTR     prox2.site1.lab.
-6       IN      PTR     prox3.site1.lab.
-8       IN      PTR     prox4.site1.lab.
-
-; Service PTRs (primary names only to avoid confusion)
-; Note: One IP should have one primary PTR record
-; Additional service names are handled via CNAME in forward zone
+1       IN      PTR     pfsense.cybacad.lab.
+4       IN      PTR     prox1.cybacad.lab.
+5       IN      PTR     prox2.cybacad.lab.
+6       IN      PTR     prox3.cybacad.lab.
+8       IN      PTR     prox4.cybacad.lab.
