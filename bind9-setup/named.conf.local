@@ -11,3 +11,19 @@ zone "75.168.192.in-addr.arpa" {
     file "/etc/bind/db.192";
     allow-transfer { none; };
 };
+
+// Site 2 zone (external services)
+
+zone "site2.local" {
+    type master;
+    file "/etc/bind/db.site2.local";
+    allow-transfer { none; };
+};
+
+// Internal cluster zone (cross-service discovery)
+
+zone "internal.cluster" {
+    type master;
+    file "/etc/bind/db.internal.cluster";
+    allow-transfer { none; };
+};

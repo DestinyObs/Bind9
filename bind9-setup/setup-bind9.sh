@@ -31,16 +31,20 @@ cp named.conf.options /etc/bind/named.conf.options
 cp named.conf.local /etc/bind/named.conf.local
 cp db.site1.lab /etc/bind/db.site1.lab
 cp db.192 /etc/bind/db.192
+cp db.site2.local /etc/bind/db.site2.local
+cp db.internal.cluster /etc/bind/db.internal.cluster
 
 # Set permissions
-chown root:bind /etc/bind/db.site1.lab /etc/bind/db.192
-chmod 640 /etc/bind/db.site1.lab /etc/bind/db.192
+chown root:bind /etc/bind/db.site1.lab /etc/bind/db.192 /etc/bind/db.site2.local /etc/bind/db.internal.cluster
+chmod 640 /etc/bind/db.site1.lab /etc/bind/db.192 /etc/bind/db.site2.local /etc/bind/db.internal.cluster
 
 # Validate configuration
 echo "Validating configuration..."
 named-checkconf && echo "Main configuration valid"
-named-checkzone site1.lab /etc/bind/db.site1.lab && echo "Forward zone valid"
+named-checkzone site1.lab /etc/bind/db.site1.lab && echo "site1.lab zone valid"
 named-checkzone 75.168.192.in-addr.arpa /etc/bind/db.192 && echo "Reverse zone valid"
+named-checkzone site2.local /etc/bind/db.site2.local && echo "site2.local zone valid"
+named-checkzone internal.cluster /etc/bind/db.internal.cluster && echo "internal.cluster zone valid"
 
 # Start Bind9
 echo "Starting Bind9..."

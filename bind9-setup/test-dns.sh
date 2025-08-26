@@ -23,13 +23,37 @@ fi
 
 # Test forward lookups
 echo "Test 2: Forward lookups"
-hosts=("ns1" "prox1" "prox2" "prox3" "prox4")
+hosts=("ns1" "prox1" "prox2" "prox3" "prox4" "prometheus" "grafana")
 for host in "${hosts[@]}"; do
     result=$(dig @$DNS_SERVER $host.site1.lab A +short 2>/dev/null)
     if [ -n "$result" ]; then
         echo "$host.site1.lab -> $result"
     else
         echo "$host.site1.lab -> No response"
+    fi
+done
+
+# Test site2.local zone
+echo "Test 3: Site2.local zone"
+site2_hosts=("web" "api")
+for host in "${site2_hosts[@]}"; do
+    result=$(dig @$DNS_SERVER $host.site2.local A +short 2>/dev/null)
+    if [ -n "$result" ]; then
+        echo "$host.site2.local -> $result"
+    else
+        echo "$host.site2.local -> No response"
+    fi
+done
+
+# Test internal.cluster zone
+echo "Test 4: Internal.cluster zone"
+cluster_hosts=("prometheus" "grafana" "metrics" "monitor")
+for host in "${cluster_hosts[@]}"; do
+    result=$(dig @$DNS_SERVER $host.internal.cluster A +short 2>/dev/null)
+    if [ -n "$result" ]; then
+        echo "$host.internal.cluster -> $result"
+    else
+        echo "$host.internal.cluster -> No response"
     fi
 done
 echo "Test 3: Testing reverse lookups (PTR records)..."
@@ -43,7 +67,7 @@ for ip in "${ips[@]}"; do
     else
         echo "✗ $ip -> No PTR record"
 # Test reverse lookups
-echo "Test 3: Reverse lookups"
+echo "Test 5: Reverse lookups"
 ips=("192.168.75.4" "192.168.75.5" "192.168.75.6" "192.168.75.8")
 for ip in "${ips[@]}"; do
     result=$(dig @$DNS_SERVER -x $ip +short 2>/dev/null)
@@ -55,7 +79,7 @@ for ip in "${ips[@]}"; do
 done
 
 # Test external resolution
-echo "Test 4: External resolution"
+echo "Test 6: External resolution"
 external=("google.com" "cloudflare.com")
 for host in "${external[@]}"; do
     result=$(dig @$DNS_SERVER $host A +short 2>/dev/null | head -1)
