@@ -1,7 +1,7 @@
 # Bind9 DNS Server - Manual Setup Instructions
 
 ## Prerequisites
-- Ubuntu/Debian server on Node 3 (192.168.75.6)
+- Ubuntu/Debian server in DMZ (172.16.25.2)
 - Root or sudo access
 - Network connectivity to other nodes
 
@@ -34,10 +34,10 @@ Add:
 ```
 auto eth0
 iface eth0 inet static
-    address 192.168.75.6
+    address 172.16.25.2
     netmask 255.255.255.0
-    gateway 192.168.75.1
-    dns-nameservers 192.168.75.6 1.1.1.1
+    gateway 172.16.25.1
+    dns-nameservers 172.16.25.2 1.1.1.1
 ```
 
 Then restart networking:
@@ -97,14 +97,35 @@ sudo nano /etc/bind/named.conf.local
 
 Replace the content with the content from `named.conf.local` file.
 
-### 5. Create Forward Zone File
+### 5. Create Zone Files
 
 ```bash
-# Create the forward zone file
-sudo nano /etc/bind/db.site1.lab
+# Create the main domain zone file
+sudo nano /etc/bind/db.cybacad.lab
 ```
 
-Copy the content from `db.site1.lab` file.
+Copy the content from `db.cybacad.lab` file.
+
+```bash
+# Create the HQ zone file
+sudo nano /etc/bind/db.hq.cybacad.lab
+```
+
+Copy the content from `db.hq.cybacad.lab` file.
+
+```bash
+# Create the remote site zone file
+sudo nano /etc/bind/db.remote.cybacad.lab
+```
+
+Copy the content from `db.remote.cybacad.lab` file.
+
+```bash
+# Create the services zone file
+sudo nano /etc/bind/db.services.cybacad.lab
+```
+
+Copy the content from `db.services.cybacad.lab` file.
 
 ### 6. Create Reverse Zone File
 
@@ -119,8 +140,8 @@ Copy the content from `db.192` file.
 
 ```bash
 # Set ownership and permissions for zone files
-sudo chown root:bind /etc/bind/db.site1.lab /etc/bind/db.192
-sudo chmod 640 /etc/bind/db.site1.lab /etc/bind/db.192
+sudo chown root:bind /etc/bind/db.cybacad.lab /etc/bind/db.hq.cybacad.lab /etc/bind/db.remote.cybacad.lab /etc/bind/db.services.cybacad.lab /etc/bind/db.192
+sudo chmod 640 /etc/bind/db.cybacad.lab /etc/bind/db.hq.cybacad.lab /etc/bind/db.remote.cybacad.lab /etc/bind/db.services.cybacad.lab /etc/bind/db.192
 ```
 
 ### 8. Validate Configuration
@@ -130,13 +151,21 @@ sudo chmod 640 /etc/bind/db.site1.lab /etc/bind/db.192
 sudo named-checkconf
 # Should return no output if OK
 
-# Check forward zone
-sudo named-checkzone site1.lab /etc/bind/db.site1.lab
-# Should show: zone site1.lab/IN: loaded serial 2025080801
+# Check main domain zone
+sudo named-checkzone cybacad.lab /etc/bind/db.cybacad.lab
+# Should show: zone cybacad.lab/IN: loaded serial 2024082601
+
+# Check HQ zone
+sudo named-checkzone hq.cybacad.lab /etc/bind/db.hq.cybacad.lab
+
+# Check remote zone
+sudo named-checkzone remote.cybacad.lab /etc/bind/db.remote.cybacad.lab
+
+# Check services zone
+sudo named-checkzone services.cybacad.lab /etc/bind/db.services.cybacad.lab
 
 # Check reverse zone
 sudo named-checkzone 75.168.192.in-addr.arpa /etc/bind/db.192
-# Should show: zone 75.168.192.in-addr.arpa/IN: loaded serial 2025080801
 ```
 
 ### 9. Start and Enable Bind9 Service
@@ -159,22 +188,34 @@ sudo journalctl -u bind9 --since "5 minutes ago"
 
 #### Test from the DNS server itself:
 ```bash
-# Test forward lookups (only active records from our zone)
-dig @127.0.0.1 prox1.site1.lab A +short
+# Test main domain
+dig @127.0.0.1 ns1.cybacad.lab A +short
+# Should return: 172.16.25.2
+
+dig @127.0.0.1 prox1.cybacad.lab A +short
 # Should return: 192.168.75.4
 
-dig @127.0.0.1 ns1.site1.lab A +short
-# Should return: 192.168.75.6
+# Test HQ services
+dig @127.0.0.1 prometheus.hq.cybacad.lab A +short
+# Should return: 172.16.10.6
 
-dig @127.0.0.1 dns.site1.lab A +short
-# Should return: 192.168.75.6
+dig @127.0.0.1 grafana.hq.cybacad.lab A +short
+# Should return: 172.16.10.7
+
+# Test remote site
+dig @127.0.0.1 web.remote.cybacad.lab A +short
+# Should return: 212.100.90.102
+
+# Test services
+dig @127.0.0.1 dns.services.cybacad.lab A +short
+# Should return: 172.16.25.2
 
 # Test reverse lookups
 dig @127.0.0.1 -x 192.168.75.4 +short
-# Should return: prox1.site1.lab.
+# Should return: prox1.cybacad.lab.
 
 # Test SOA record
-dig @127.0.0.1 site1.lab SOA +short
+dig @127.0.0.1 cybacad.lab SOA +short
 
 # Test external resolution (via forwarders)
 dig @127.0.0.1 google.com A +short
@@ -184,10 +225,9 @@ dig @127.0.0.1 google.com A +short
 #### Test from another machine on the network:
 ```bash
 # Test from any other host on 192.168.75.0/24
-# Note: Only test active records (commented out services won't resolve)
-dig @192.168.75.6 prox1.site1.lab A +short
-dig @192.168.75.6 prox3.site1.lab A +short
-host 192.168.75.8 192.168.75.6
+dig @172.16.25.2 prox1.cybacad.lab A +short
+dig @172.16.25.2 prometheus.hq.cybacad.lab A +short
+host 192.168.75.8 172.16.25.2
 ```
 
 ### 11. Configure Client Machines
@@ -200,16 +240,16 @@ sudo nano /etc/resolv.conf
 
 Add:
 ```
-nameserver 192.168.75.6
+nameserver 172.16.25.2
 nameserver 1.1.1.1
-search site1.lab
+search cybacad.lab
 ```
 
 #### Option B: Configure pfSense DHCP (recommended)
 1. Log into pfSense web interface
 2. Go to **Services → DHCP Server → LAN**
-3. Set **DNS servers**: Primary = `192.168.75.6`, Secondary = `1.1.1.1`
-4. Set **Domain name**: `site1.lab`
+3. Set **DNS servers**: Primary = `172.16.25.2`, Secondary = `1.1.1.1`
+4. Set **Domain name**: `cybacad.lab`
 5. Save and Apply Changes
 
 ### 12. Firewall Configuration
@@ -221,7 +261,7 @@ Ensure pfSense allows DNS traffic:
    - Action: Pass
    - Protocol: UDP/TCP
    - Source: LAN net
-   - Destination: Single host or alias = 192.168.75.6
+   - Destination: Single host or alias = 172.16.25.2
    - Port: 53
 
 ## Maintenance Tasks
@@ -230,7 +270,8 @@ Ensure pfSense allows DNS traffic:
 
 1. Edit the zone file:
 ```bash
-sudo nano /etc/bind/db.site1.lab
+sudo nano /etc/bind/db.cybacad.lab
+# or any of the other zone files as needed
 ```
 
 2. Add your new records (A, CNAME, etc.)
@@ -241,7 +282,7 @@ sudo nano /etc/bind/db.site1.lab
 sudo /usr/local/bin/increment-bind-serial.sh
 
 # Or manually increment and reload
-sudo rndc reload site1.lab
+sudo rndc reload cybacad.lab
 ```
 
 ### Monitoring and Troubleshooting
@@ -330,7 +371,7 @@ sudo named-checkconf
 **Solutions**:
 1. Check firewall rules allow port 53
 2. Verify client DNS configuration
-3. Test with `dig @192.168.75.6 hostname.site1.lab`
+3. Test with `dig @172.16.25.2 hostname.cybacad.lab`
 
 ### Issue: External domains not resolving
 **Solution**: Check forwarders configuration in `named.conf.options`
