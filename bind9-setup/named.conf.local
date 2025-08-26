@@ -1,29 +1,36 @@
-// Local zones for site1.lab (internal)
+// CyberAcademy DNS Zones
 
-zone "site1.lab" {
+// Main domain
+zone "cybacad.lab" {
     type master;
-    file "/etc/bind/db.site1.lab";
-    allow-transfer { none; };  // adjust to allow slave IPs if you add slaves
+    file "/etc/bind/db.cybacad.lab";
+    allow-transfer { none; };
 };
 
+// Site 1 - Proxmox HQ cluster
+zone "hq.cybacad.lab" {
+    type master;
+    file "/etc/bind/db.hq.cybacad.lab";
+    allow-transfer { none; };
+};
+
+// Site 2 - ESXi remote site
+zone "remote.cybacad.lab" {
+    type master;
+    file "/etc/bind/db.remote.cybacad.lab";
+    allow-transfer { none; };
+};
+
+// Internal service discovery
+zone "services.cybacad.lab" {
+    type master;
+    file "/etc/bind/db.services.cybacad.lab";
+    allow-transfer { none; };
+};
+
+// Reverse zone (keep existing)
 zone "75.168.192.in-addr.arpa" {
     type master;
     file "/etc/bind/db.192";
-    allow-transfer { none; };
-};
-
-// Site 2 zone (external services)
-
-zone "site2.local" {
-    type master;
-    file "/etc/bind/db.site2.local";
-    allow-transfer { none; };
-};
-
-// Internal cluster zone (cross-service discovery)
-
-zone "internal.cluster" {
-    type master;
-    file "/etc/bind/db.internal.cluster";
     allow-transfer { none; };
 };

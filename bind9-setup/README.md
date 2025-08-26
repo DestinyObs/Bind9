@@ -31,3 +31,10 @@
 1. Copy files to DNS server: `scp -r * user@172.16.25.2:/tmp/`
 2. Run setup: `sudo bash setup-bind9.sh`
 3. Test functionality: `bash test-dns.sh`
+
+
+sudo rm -f /etc/bind/db.site1.lab
+sudo rm -f /etc/bind/db.site2.local
+sudo rm -f /etc/bind/db.internal.cluster
+
+ls -la /etc/bind/db.*
