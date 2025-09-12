@@ -10,11 +10,11 @@ $TTL    604800
 @       IN      NS      ns1.remote.cybacad.lab.
 
 ; DNS Server (points to main DNS in DMZ)
-ns1     IN      A       172.16.25.2
+ns1     IN      A       192.168.3.9
 
-; Site 2 Services (ESXi Host)
-web     IN      A       212.100.90.102
-api     IN      A       212.100.90.102
+; Remote site services (update as needed)
+; web     IN      A       212.100.90.102
+; api     IN      A       212.100.90.102
 
 ; Convenience aliases
-www     IN      CNAME   web
+; www     IN      CNAME   web

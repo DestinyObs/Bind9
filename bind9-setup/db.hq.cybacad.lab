@@ -6,21 +6,19 @@ $TTL    604800
                         2419200         ; Expire
                         604800 )        ; Negative Cache TTL
 
+grafana         IN      A       172.16.10.7
 ; Name servers
 @       IN      NS      ns1.hq.cybacad.lab.
 
-; DNS Server
-ns1     IN      A       172.16.25.2
+; DNS Server (DMZ/main DNS)
+ns1     IN      A       192.168.3.9
 
-; Monitoring Stack (Currently Deployed)
-prometheus      IN      A       172.16.10.6
-grafana         IN      A       172.16.10.7
+; Monitoring Stack (Updated IPs)
+prometheus      IN      A       10.0.5.4
+grafana         IN      A       10.0.5.5
+pulse           IN      A       10.0.5.8
+ubuntumonitoring IN    A       10.0.5.7
 
 ; Convenience aliases
 metrics         IN      CNAME   prometheus
 monitor         IN      CNAME   grafana
-
-; Future services (ready for deployment)
-; wazuh          IN      A       192.168.75.4
-; cicd           IN      A       192.168.75.6
-; db             IN      A       192.168.75.8

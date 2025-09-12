@@ -1,5 +1,3 @@
-// CyberAcademy DNS Zones
-
 // Main domain
 zone "cybacad.lab" {
     type master;
@@ -7,21 +5,21 @@ zone "cybacad.lab" {
     allow-transfer { none; };
 };
 
-// Site 1 - Proxmox HQ cluster
+// HQ subdomain
 zone "hq.cybacad.lab" {
     type master;
     file "/etc/bind/db.hq.cybacad.lab";
     allow-transfer { none; };
 };
 
-// Site 2 - ESXi remote site
+// Remote subdomain
 zone "remote.cybacad.lab" {
     type master;
     file "/etc/bind/db.remote.cybacad.lab";
     allow-transfer { none; };
 };
 
-// Internal service discovery
+// Services subdomain
 zone "services.cybacad.lab" {
     type master;
     file "/etc/bind/db.services.cybacad.lab";

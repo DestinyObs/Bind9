@@ -1,6 +1,6 @@
 $TTL    604800
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024082601      ; Serial
+                        2024091201      ; Serial
                         604800          ; Refresh
                         86400           ; Retry
                         2419200         ; Expire
@@ -9,24 +9,23 @@ $TTL    604800
 ; Name servers
 @       IN      NS      ns1.cybacad.lab.
 
-; Main DNS server
-ns1     IN      A       172.16.25.2
-
-; Core infrastructure
-pfsense IN      A       192.168.75.1
-dns     IN      A       172.16.25.2
+; Main DNS server (update with your actual DMZ IP)
+ns1     IN      A       192.168.3.9
 
 ; Proxmox nodes
-prox1   IN      A       192.168.75.4
-prox2   IN      A       192.168.75.5
-prox3   IN      A       192.168.75.6
-prox4   IN      A       192.168.75.8
+prox1   IN      A       192.168.3.8
+prox2   IN      A       192.168.3.9
 
-; Convenience aliases - commented out until services are deployed
-; db              IN      CNAME   mssql.site1.lab.
-; sql             IN      CNAME   mssql.site1.lab.
-; monitor         IN      CNAME   grafana.site1.lab.
-; metrics         IN      CNAME   prometheus.site1.lab.
+; Core infrastructure
+pfsense IN      A       192.168.32.1
+windows IN      A       192.168.32.2
+wazuh   IN      A       40.10.10.10
+nodeexp1 IN     A       10.0.5.2
+nodeexp2 IN     A       10.0.5.3
+prometheus IN   A       10.0.5.4
+grafana IN      A       10.0.5.5
+pulse IN        A       10.0.5.8
+ubuntumonitoring IN A   10.0.5.7
 
 ; Zone apex points to ns1
-@               IN      A       172.16.25.2
+@               IN      A       192.168.3.9
