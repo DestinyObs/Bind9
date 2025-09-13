@@ -14,3 +14,10 @@ $TTL    604800
 9       IN      PTR     prox2.cybacad.lab.
 1       IN      PTR     pfsense.cybacad.lab.
 2       IN      PTR     windows.cybacad.lab.
+; PTR records for 192.168.32.x (K8s nodes)
+8       IN      PTR     cks-master-1.cybacad.lab.
+9       IN      PTR     cks-master-2.cybacad.lab.
+10      IN      PTR     cks-worker-1.cybacad.lab.
+3       IN      PTR     cks-worker-2.cybacad.lab.
+6       IN      PTR     cks-worker-3.cybacad.lab.
+7       IN      PTR     cks-worker-4.cybacad.lab.

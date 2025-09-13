@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+
+# Directory where you cloned the repo
+REPO_DIR="$(dirname "$0")"
+BIND_DIR="/etc/bind"
+
+# Copy all zone and config files
+sudo cp "$REPO_DIR"/db.* "$BIND_DIR/"
+sudo cp "$REPO_DIR"/named.conf.local "$BIND_DIR/"
+sudo cp "$REPO_DIR"/named.conf.options "$BIND_DIR/"
+
+# Set permissions
+sudo chown root:bind "$BIND_DIR"/db.*
+sudo chmod 644 "$BIND_DIR"/db.*
+
+# Reload Bind9
+sudo systemctl reload bind9
+
+# Test DNS records
+function test_dns {
+    local name=$1
+    local expected=$2
+    local result=$(dig +short @$3 $name)
+    if [[ "$result" == "$expected" ]]; then
+        echo "$name OK ($result)"
+    else
+        echo "$name FAIL (got $result, expected $expected)"
+        exit 1
+    fi
+}
+
+echo "Testing DNS records..."
+test_dns prox1.cybacad.lab 192.168.3.8 127.0.0.1
+test_dns prox2.cybacad.lab 192.168.3.9 127.0.0.1
+test_dns prometheus.services.cybacad.lab 10.0.5.4 127.0.0.1
+test_dns grafana.services.cybacad.lab 10.0.5.5 127.0.0.1
+
+echo "Bind9 deployment and test complete!"

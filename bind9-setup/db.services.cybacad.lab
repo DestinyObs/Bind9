@@ -18,7 +18,7 @@ dns     IN      A       192.168.3.9
 prometheus      IN      A       10.0.5.4
 grafana         IN      A       10.0.5.5
 pulse           IN      A       10.0.5.8
-ubuntumonitoring IN    A       10.0.5.7
+ubuntumonitoring IN    A        10.0.5.7
 wazuh          IN      A        40.10.10.10
 
 ; Service aliases
