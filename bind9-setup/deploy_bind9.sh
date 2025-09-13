@@ -1,9 +1,20 @@
 #!/bin/bash
-set -e
+set -ex
 
 # Directory where you cloned the repo
 REPO_DIR="$(dirname "$0")"
 BIND_DIR="/etc/bind"
+
+
+# Install Bind9 if not present
+if ! dpkg -l | grep -qw bind9; then
+    sudo apt-get update
+    sudo apt-get install -y bind9 bind9utils bind9-dnsutils
+fi
+
+# Enable and start Bind9
+sudo systemctl enable bind9
+sudo systemctl start bind9
 
 # Copy all zone and config files
 sudo cp "$REPO_DIR"/db.* "$BIND_DIR/"
