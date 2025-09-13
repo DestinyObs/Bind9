@@ -9,8 +9,11 @@ BIND_DIR="/etc/bind"
 
 # Install Bind9 if not present
 if ! dpkg -l | grep -qw bind9; then
-    sudo apt-get update -y
-    sudo apt install -y bind9 bind9utils bind9-doc dnsutils
+    echo "Bind9 not found. Installing..."
+    sudo apt-get update
+    sudo apt-get install -y bind9 bind9utils bind9-doc dnsutils
+else
+    echo "Bind9 is already installed."
 fi
 
 if systemctl list-unit-files | grep -qw named.service; then
