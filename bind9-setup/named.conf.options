@@ -4,7 +4,7 @@ acl "trusted" {
     127.0.0.1;
     ::1;
     192.168.75.0/24;   // internal LAN - Proxmox nodes
-    172.16.25.0/24;    // DMZ network
+    172.16.40.0/24;    // DMZ network
 };
 
 options {

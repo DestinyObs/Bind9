@@ -9,15 +9,11 @@ BIND_DIR="/etc/bind"
 
 # Install Bind9 if not present
 if ! dpkg -l | grep -qw bind9; then
-    sudo apt-get update
-    sudo apt-get install -y bind9 bind9utils bind9-dnsutils
+    sudo apt-get update -y
+    sudo apt install -y bind9 bind9utils bind9-doc dnsutils
 fi
 
-# Try to enable and start the correct Bind9 service for Ubuntu 22.04/24.04
-if systemctl list-unit-files | grep -qw bind9.service; then
-  sudo systemctl enable bind9
-  sudo systemctl start bind9
-elif systemctl list-unit-files | grep -qw named.service; then
+if systemctl list-unit-files | grep -qw named.service; then
   sudo systemctl enable named
   sudo systemctl start named
 else
@@ -25,20 +21,31 @@ else
   exit 1
 fi
 
+# Backup and copy named.conf.options only if not already present
+if [ ! -f "$BIND_DIR/named.conf.options.bak" ]; then
+  sudo cp "$BIND_DIR/named.conf.options" "$BIND_DIR/named.conf.options.bak"
+fi
+sudo cp "$REPO_DIR/named.conf.options" "$BIND_DIR/named.conf.options"
+
 # Copy all zone and config files
 sudo cp "$REPO_DIR"/db.* "$BIND_DIR/"
 sudo cp "$REPO_DIR"/named.conf.local "$BIND_DIR/"
-sudo cp "$REPO_DIR"/named.conf.options "$BIND_DIR/"
 
 # Set permissions
 sudo chown root:bind "$BIND_DIR"/db.*
 sudo chmod 644 "$BIND_DIR"/db.*
 
-# Reload Bind9
-if systemctl list-unit-files | grep -qw bind9.service; then
-  sudo systemctl reload bind9
-elif systemctl list-unit-files | grep -qw named.service; then
-  sudo systemctl reload named
+# Check BIND configuration syntax
+sudo named-checkconf
+
+# Restart and enable BIND9 service (Ubuntu 24.04: named)
+sudo systemctl restart named
+sudo systemctl enable named
+
+# Open DNS port in UFW firewall (if UFW is active)
+if sudo ufw status | grep -qw active; then
+  sudo ufw allow 53/udp
+  sudo ufw allow 53/tcp
 fi
 
 # Test DNS records
