@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 # Directory where you cloned the repo
 REPO_DIR="$(dirname "$0")"
@@ -7,20 +7,9 @@ BIND_DIR="/etc/bind"
 
 
 
-# Install Bind9 if not present
-if ! dpkg -l | grep -qw bind9; then
-    echo "Bind9 not found. Installing..."
-    sudo apt-get update
-    sudo apt-get install -y bind9 bind9utils bind9-doc dnsutils
-else
-    echo "Bind9 is already installed."
-fi
-
-if systemctl list-unit-files | grep -qw named.service; then
-  sudo systemctl enable named
-  sudo systemctl start named
-else
-  echo "ERROR: Neither bind9.service nor named.service found. Is Bind9 installed?" >&2
+# Ensure named service exists
+if ! systemctl list-unit-files | grep -qw named.service; then
+  echo "ERROR: named.service not found. Please install Bind9 first." >&2
   exit 1
 fi
 
@@ -44,12 +33,6 @@ sudo named-checkconf
 # Restart and enable BIND9 service (Ubuntu 24.04: named)
 sudo systemctl restart named
 sudo systemctl enable named
-
-# Open DNS port in UFW firewall (if UFW is active)
-if sudo ufw status | grep -qw active; then
-  sudo ufw allow 53/udp
-  sudo ufw allow 53/tcp
-fi
 
 # Test DNS records
 function test_dns {
