@@ -13,9 +13,17 @@ if ! dpkg -l | grep -qw bind9; then
     sudo apt-get install -y bind9 bind9utils bind9-dnsutils
 fi
 
-# Enable and start Bind9 (service is 'named' on Ubuntu 22.04)
-sudo systemctl enable named
-sudo systemctl start named
+# Try to enable and start the correct Bind9 service for Ubuntu 22.04/24.04
+if systemctl list-unit-files | grep -qw bind9.service; then
+  sudo systemctl enable bind9
+  sudo systemctl start bind9
+elif systemctl list-unit-files | grep -qw named.service; then
+  sudo systemctl enable named
+  sudo systemctl start named
+else
+  echo "ERROR: Neither bind9.service nor named.service found. Is Bind9 installed?" >&2
+  exit 1
+fi
 
 # Copy all zone and config files
 sudo cp "$REPO_DIR"/db.* "$BIND_DIR/"
@@ -27,7 +35,11 @@ sudo chown root:bind "$BIND_DIR"/db.*
 sudo chmod 644 "$BIND_DIR"/db.*
 
 # Reload Bind9
-sudo systemctl reload bind9
+if systemctl list-unit-files | grep -qw bind9.service; then
+  sudo systemctl reload bind9
+elif systemctl list-unit-files | grep -qw named.service; then
+  sudo systemctl reload named
+fi
 
 # Test DNS records
 function test_dns {
