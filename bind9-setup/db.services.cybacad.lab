@@ -10,9 +10,9 @@ grafana         IN      A       172.16.10.7
 ; Name servers
 @       IN      NS      ns1.services.cybacad.lab.
 
-; DNS Server (DMZ/main DNS)
-ns1     IN      A       192.168.3.9
-dns     IN      A       192.168.3.9
+; DNS Server (static IP)
+ns1     IN      A       172.16.40.3
+dns     IN      A       172.16.40.3
 
 ; Core Services (Updated IPs)
 prometheus      IN      A       10.0.5.4
