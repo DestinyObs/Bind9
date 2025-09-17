@@ -16,7 +16,6 @@ ns1     IN      A       172.16.40.3
 prox1   IN      A       192.168.3.8
 prox2   IN      A       192.168.3.9
 
-grafana IN      A       10.0.5.5
 ; Core infrastructure
 pfsense IN      A       192.168.32.1
 windows IN      A       192.168.32.2
@@ -24,7 +23,6 @@ wazuh   IN      A       40.10.10.10
 nodeexp1 IN     A       10.0.5.2
 nodeexp2 IN     A       10.0.5.3
 prometheus IN   A       10.0.5.4
-grafana IN      A       10.0.5.5
 pulse IN        A       10.0.5.8
 ubuntumonitoring IN A   10.0.5.7
 
@@ -37,4 +35,4 @@ cks-worker-3   IN      A       192.168.32.6
 cks-worker-4   IN      A       192.168.32.7
 
 ; Zone apex points to ns1
-@               IN      A       192.168.3.9
+@               IN      A       172.16.40.3

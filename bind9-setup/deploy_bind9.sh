@@ -34,23 +34,57 @@ sudo named-checkconf
 sudo systemctl restart named
 sudo systemctl enable named
 
-# Test DNS records
+# Reload zones to ensure changes are live
+sudo rndc reload || true
+
+# Test DNS records from both localhost and server IP
 function test_dns {
     local name=$1
     local expected=$2
-    local result=$(dig +short @$3 $name)
+    local server_ip=$3
+    local result=$(dig +short @$server_ip $name)
     if [[ "$result" == "$expected" ]]; then
-        echo "$name OK ($result)"
+        echo "$name OK ($result) via $server_ip"
     else
-        echo "$name FAIL (got $result, expected $expected)"
+        echo "$name FAIL (got $result, expected $expected) via $server_ip"
         exit 1
     fi
 }
 
-echo "Testing DNS records..."
-test_dns prox1.cybacad.lab 192.168.3.8 127.0.0.1
-test_dns prox2.cybacad.lab 192.168.3.9 127.0.0.1
-test_dns prometheus.services.cybacad.lab 10.0.5.4 127.0.0.1
-test_dns grafana.services.cybacad.lab 10.0.5.5 127.0.0.1
+# Get server's main IP (assumes eth0 or ens* is main interface)
+SERVER_IP=$(hostname -I | awk '{print $1}')
+
+# Test from localhost and main IP
+for ip in 127.0.0.1 $SERVER_IP; do
+  test_dns prox1.cybacad.lab 192.168.3.8 $ip
+  test_dns prox2.cybacad.lab 192.168.3.9 $ip
+  test_dns prometheus.services.cybacad.lab 10.0.5.4 $ip
+  test_dns grafana.services.cybacad.lab 10.0.5.5 $ip
+  test_dns cks-master-1.cybacad.lab 192.168.32.8 $ip
+  test_dns cks-master-2.cybacad.lab 192.168.32.9 $ip
+  test_dns cks-worker-1.cybacad.lab 192.168.32.10 $ip
+  test_dns cks-worker-2.cybacad.lab 192.168.32.3 $ip
+  test_dns cks-worker-3.cybacad.lab 192.168.32.6 $ip
+  test_dns cks-worker-4.cybacad.lab 192.168.32.7 $ip
+  test_dns pfsense.cybacad.lab 192.168.32.1 $ip
+  test_dns windows.cybacad.lab 192.168.32.2 $ip
+  test_dns wazuh.cybacad.lab 40.10.10.10 $ip
+  test_dns nodeexp1.cybacad.lab 10.0.5.2 $ip
+  test_dns nodeexp2.cybacad.lab 10.0.5.3 $ip
+  test_dns pulse.cybacad.lab 10.0.5.8 $ip
+  test_dns ubuntumonitoring.cybacad.lab 10.0.5.7 $ip
+  test_dns grafana.hq.cybacad.lab 10.0.5.5 $ip
+  test_dns prometheus.hq.cybacad.lab 10.0.5.4 $ip
+  test_dns grafana.services.cybacad.lab 10.0.5.5 $ip
+  test_dns prometheus.services.cybacad.lab 10.0.5.4 $ip
+  test_dns ns1.cybacad.lab 172.16.40.3 $ip
+  test_dns ns1.hq.cybacad.lab 172.16.40.3 $ip
+  test_dns ns1.services.cybacad.lab 172.16.40.3 $ip
+  test_dns dns.services.cybacad.lab 172.16.40.3 $ip
+  test_dns ns1.remote.cybacad.lab 172.16.40.3 $ip
+  # Add more as needed
+  echo "---"
+done
 
 echo "Bind9 deployment and test complete!"
+echo "If nslookup/dig fails on clients, set 'nameserver 172.16.40.3' in /etc/resolv.conf or configure DHCP/pfSense to use this DNS."
