@@ -9,4 +9,3 @@ $TTL    604800
 @       IN      NS      ns1.cybacad.lab.
 
 10      IN      PTR     wazuh.cybacad.lab.
-10      IN      PTR     wazuh.services.cybacad.lab.

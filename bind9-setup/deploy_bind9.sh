@@ -41,11 +41,20 @@ sudo chown root:bind "$BIND_DIR"/db.*
 sudo chmod 644 "$BIND_DIR"/db.*
 
 # Check BIND configuration syntax
-sudo named-checkconf
+sudo named-checkconf || { echo "named-checkconf failed"; exit 1; }
+
+# Check all zone files for syntax
+for zonefile in "$BIND_DIR"/db.*; do
+  echo "Checking syntax for $zonefile..."
+  sudo named-checkzone "$(basename "$zonefile")" "$zonefile" || { echo "Syntax error in $zonefile"; exit 1; }
+done
 
 # Restart and enable BIND9 service (Ubuntu 24.04: named)
 sudo systemctl restart named
 sudo systemctl enable named
+
+# Print named service status
+sudo systemctl status named --no-pager
 
 # Reload zones to ensure changes are live
 sudo rndc reload || true
