@@ -1,6 +1,6 @@
 $TTL    604800
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024060201      ; Serial
+                        2024091901      ; Serial
                         604800
                         86400
                         2419200
@@ -29,3 +29,13 @@ $TTL    604800
 8       IN      PTR     pulse.cybacad.lab.
 7       IN      PTR     ubuntumonitoring.cybacad.lab.
 10      IN      PTR     wazuh.cybacad.lab.
+; PTR records for 10.0.5.x (services/hq)
+4       IN      PTR     prometheus.hq.cybacad.lab.
+5       IN      PTR     grafana.hq.cybacad.lab.
+4       IN      PTR     prometheus.services.cybacad.lab.
+5       IN      PTR     grafana.services.cybacad.lab.
+8       IN      PTR     pulse.hq.cybacad.lab.
+8       IN      PTR     pulse.services.cybacad.lab.
+7       IN      PTR     ubuntumonitoring.hq.cybacad.lab.
+7       IN      PTR     ubuntumonitoring.services.cybacad.lab.
+10      IN      PTR     wazuh.services.cybacad.lab.
