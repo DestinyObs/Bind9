@@ -33,6 +33,8 @@ sudo cp "$REPO_DIR/named.conf.options" "$BIND_DIR/named.conf.options"
 # Copy all zone and config files
 sudo cp "$REPO_DIR"/db.* "$BIND_DIR/"
 sudo cp "$REPO_DIR"/named.conf.local "$BIND_DIR/"
+# Remove old monolithic reverse zone if present
+sudo rm -f "$BIND_DIR/db.192"
 
 # Set permissions
 sudo chown root:bind "$BIND_DIR"/db.*

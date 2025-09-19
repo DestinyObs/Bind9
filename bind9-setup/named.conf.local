@@ -27,8 +27,24 @@ zone "services.cybacad.lab" {
 };
 
 // Reverse zone
-zone "192.in-addr.arpa" {
+// Reverse zones for each subnet
+zone "3.168.192.in-addr.arpa" {
     type master;
-    file "/etc/bind/db.192";
+    file "/etc/bind/db.192.168.3";
+    allow-transfer { none; };
+};
+zone "32.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.192.168.32";
+    allow-transfer { none; };
+};
+zone "5.0.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.10.0.5";
+    allow-transfer { none; };
+};
+zone "10.10.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.40.10.10";
     allow-transfer { none; };
 };
