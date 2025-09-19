@@ -15,7 +15,9 @@ fi
 
 # Get server hostname and main IP
 HOSTNAME=$(cat /etc/hostname | tr -d '\n')
-SERVER_IP=$(ip -4 addr show | awk '/inet/ && !/127.0.0.1/ && !/docker/ {print $2}' | cut -d'/' -f1 | head -n1)
+# Force DMZ IP for testing
+DMZ_IP="172.16.40.3"
+SERVER_IP=$(ip -4 addr show | awk '/inet/ && !/127.0.0.1/ && !/docker/ {print $2}' | cut -d'/' -f1 | grep "$DMZ_IP" || echo "$DMZ_IP")
 
 # Update A record for hostname in db.cybacad.lab
 if ! grep -q "^$HOSTNAME[ \t]*IN[ \t]*A" "$REPO_DIR/db.cybacad.lab"; then
@@ -59,7 +61,7 @@ sudo systemctl status named --no-pager
 # Reload zones to ensure changes are live
 sudo rndc reload || true
 
-# Test DNS records from both localhost and server IP
+# Test DNS records from both localhost and DMZ IP
 function test_dns {
     local name=$1
     local expected=$2
@@ -139,8 +141,8 @@ ptr_cases=(
   "$SERVER_IP $HOSTNAME.cybacad.lab."
 )
 
-# Test from localhost and main IP
-for ip in 127.0.0.1 $SERVER_IP; do
+# Test from localhost and DMZ IP
+for ip in 127.0.0.1 $DMZ_IP; do
   echo "Testing A records via $ip..."
   for test in "${test_cases[@]}"; do
     set -- $test
