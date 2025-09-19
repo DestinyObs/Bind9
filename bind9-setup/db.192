@@ -1,6 +1,6 @@
 $TTL    604800
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024091201      ; Serial
+                        2024060201      ; Serial
                         604800
                         86400
                         2419200
@@ -14,6 +14,7 @@ $TTL    604800
 9       IN      PTR     prox2.cybacad.lab.
 1       IN      PTR     pfsense.cybacad.lab.
 2       IN      PTR     windows.cybacad.lab.
+
 ; PTR records for 192.168.32.x (K8s nodes)
 8       IN      PTR     cks-master-1.cybacad.lab.
 9       IN      PTR     cks-master-2.cybacad.lab.

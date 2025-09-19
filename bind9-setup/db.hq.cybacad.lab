@@ -1,12 +1,12 @@
 $TTL    604800
 @       IN      SOA     ns1.hq.cybacad.lab. admin.hq.cybacad.lab. (
-                        2024082601      ; Serial
+                        2024060201      ; Serial
                         604800          ; Refresh
                         86400           ; Retry
                         2419200         ; Expire
                         604800 )        ; Negative Cache TTL
 
-grafana         IN      A       172.16.10.7
+grafana         IN      A       10.0.5.5
 ; Name servers
 @       IN      NS      ns1.hq.cybacad.lab.
 
