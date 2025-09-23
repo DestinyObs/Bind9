@@ -1,48 +1,58 @@
-// Main domain
+// named.conf.local - Bind9 zone definitions
+//
+// This file defines all authoritative DNS zones served by this Bind9 instance.
+// Each block below configures a specific forward or reverse DNS zone.
+
+// zone "cybacad.lab" { ... } defines the main forward zone for the primary domain (all core records).
 zone "cybacad.lab" {
-    type master;
-    file "/etc/bind/db.cybacad.lab";
-    allow-transfer { none; };
+    type master;                    // This server is the primary (master) for this zone. It holds the original data.
+    file "/etc/bind/db.cybacad.lab"; // Path to the zone file containing all records for cybacad.lab. This is where the DNS records live.
+    allow-transfer { none; };       // Disable zone transfers for security. No one can AXFR/IXFR this zone.
 };
 
-// HQ subdomain
+// zone "hq.cybacad.lab" { ... } defines the HQ subdomain (for records specific to the HQ site).
 zone "hq.cybacad.lab" {
     type master;
     file "/etc/bind/db.hq.cybacad.lab";
     allow-transfer { none; };
 };
 
-// Remote subdomain
+// zone "remote.cybacad.lab" { ... } defines the Remote subdomain (for remote site records).
 zone "remote.cybacad.lab" {
     type master;
     file "/etc/bind/db.remote.cybacad.lab";
     allow-transfer { none; };
 };
 
-// Services subdomain
+// zone "services.cybacad.lab" { ... } defines the Services subdomain (for shared services like monitoring, CI/CD, etc.).
 zone "services.cybacad.lab" {
     type master;
     file "/etc/bind/db.services.cybacad.lab";
     allow-transfer { none; };
 };
 
-// Reverse zone
-// Reverse zones for each subnet
+// zone "3.168.192.in-addr.arpa" { ... } defines the reverse DNS zone for 192.168.3.x subnet (Proxmox, etc.).
 zone "3.168.192.in-addr.arpa" {
     type master;
     file "/etc/bind/db.192.168.3";
     allow-transfer { none; };
 };
+
+// zone "32.168.192.in-addr.arpa" { ... } defines the reverse DNS zone for 192.168.32.x subnet (Kubernetes, infra).
 zone "32.168.192.in-addr.arpa" {
     type master;
     file "/etc/bind/db.192.168.32";
     allow-transfer { none; };
 };
+
+// zone "5.0.10.in-addr.arpa" { ... } defines the reverse DNS zone for 10.0.5.x subnet (node exporters, monitoring).
 zone "5.0.10.in-addr.arpa" {
     type master;
     file "/etc/bind/db.10.0.5";
     allow-transfer { none; };
 };
+
+// zone "10.10.10.in-addr.arpa" { ... } defines the reverse DNS zone for 40.10.10.x subnet (Wazuh, security monitoring).
 zone "10.10.10.in-addr.arpa" {
     type master;
     file "/etc/bind/db.40.10.10";

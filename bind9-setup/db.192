@@ -1,45 +1,45 @@
-$TTL    604800
+$TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). Here, 604800 means 7 days. This tells DNS resolvers how long to cache these records.
+
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024091901      ; Serial
-                        604800
-                        86400
-                        2419200
-                        604800
-)
+                        2024091901      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
+                        86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
+                        2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
+                        604800          ; Negative Cache TTL: how long to cache negative responses (NXDOMAIN) (7 days).
+                        )               ; End of SOA record parameters.
 
-@       IN      NS      ns1.cybacad.lab.
+@       IN      NS      ns1.cybacad.lab.        ; This zone's authoritative name server is ns1.cybacad.lab.
 
+; PTR records for 192.168.3.x subnet (Proxmox, pfsense, windows)
+8.3.168.192.in-addr.arpa.   IN      PTR     prox1.cybacad.lab.      ; 192.168.3.8 → prox1.cybacad.lab. This maps the IP to a hostname for reverse DNS lookups.
+9.3.168.192.in-addr.arpa.   IN      PTR     prox2.cybacad.lab.      ; 192.168.3.9 → prox2.cybacad.lab.
+1.3.168.192.in-addr.arpa.   IN      PTR     pfsense.cybacad.lab.    ; 192.168.3.1 → pfsense.cybacad.lab.
+2.3.168.192.in-addr.arpa.   IN      PTR     windows.cybacad.lab.    ; 192.168.3.2 → windows.cybacad.lab.
 
-; PTR records for 192.168.3.x
-8.3.168.192.in-addr.arpa.   IN      PTR     prox1.cybacad.lab.
-9.3.168.192.in-addr.arpa.   IN      PTR     prox2.cybacad.lab.
-1.3.168.192.in-addr.arpa.   IN      PTR     pfsense.cybacad.lab.
-2.3.168.192.in-addr.arpa.   IN      PTR     windows.cybacad.lab.
+; PTR records for 192.168.32.x subnet (Kubernetes nodes)
+8.32.168.192.in-addr.arpa.  IN      PTR     cks-master-1.cybacad.lab.   ; 192.168.32.8 → cks-master-1.cybacad.lab.
+9.32.168.192.in-addr.arpa.  IN      PTR     cks-master-2.cybacad.lab.   ; 192.168.32.9 → cks-master-2.cybacad.lab.
+10.32.168.192.in-addr.arpa. IN      PTR     cks-worker-1.cybacad.lab.   ; 192.168.32.10 → cks-worker-1.cybacad.lab.
+3.32.168.192.in-addr.arpa.  IN      PTR     cks-worker-2.cybacad.lab.   ; 192.168.32.3 → cks-worker-2.cybacad.lab.
+6.32.168.192.in-addr.arpa.  IN      PTR     cks-worker-3.cybacad.lab.   ; 192.168.32.6 → cks-worker-3.cybacad.lab.
+7.32.168.192.in-addr.arpa.  IN      PTR     cks-worker-4.cybacad.lab.   ; 192.168.32.7 → cks-worker-4.cybacad.lab.
 
-; PTR records for 192.168.32.x (K8s nodes)
-8.32.168.192.in-addr.arpa.  IN      PTR     cks-master-1.cybacad.lab.
-9.32.168.192.in-addr.arpa.  IN      PTR     cks-master-2.cybacad.lab.
-10.32.168.192.in-addr.arpa. IN      PTR     cks-worker-1.cybacad.lab.
-3.32.168.192.in-addr.arpa.  IN      PTR     cks-worker-2.cybacad.lab.
-6.32.168.192.in-addr.arpa.  IN      PTR     cks-worker-3.cybacad.lab.
-7.32.168.192.in-addr.arpa.  IN      PTR     cks-worker-4.cybacad.lab.
+; PTR records for 10.0.5.x subnet (core/services/hq)
+2.5.0.10.in-addr.arpa.      IN      PTR     nodeexp1.cybacad.lab.       ; 10.0.5.2 → nodeexp1.cybacad.lab.
+3.5.0.10.in-addr.arpa.      IN      PTR     nodeexp2.cybacad.lab.       ; 10.0.5.3 → nodeexp2.cybacad.lab.
+4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.cybacad.lab.     ; 10.0.5.4 → prometheus.cybacad.lab.
+5.5.0.10.in-addr.arpa.      IN      PTR     grafana.cybacad.lab.        ; 10.0.5.5 → grafana.cybacad.lab.
+8.5.0.10.in-addr.arpa.      IN      PTR     pulse.cybacad.lab.          ; 10.0.5.8 → pulse.cybacad.lab.
+7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.cybacad.lab.; 10.0.5.7 → ubuntumonitoring.cybacad.lab.
+4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.hq.cybacad.lab.  ; 10.0.5.4 → prometheus.hq.cybacad.lab.
+5.5.0.10.in-addr.arpa.      IN      PTR     grafana.hq.cybacad.lab.     ; 10.0.5.5 → grafana.hq.cybacad.lab.
+4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.services.cybacad.lab.; 10.0.5.4 → prometheus.services.cybacad.lab.
+5.5.0.10.in-addr.arpa.      IN      PTR     grafana.services.cybacad.lab.; 10.0.5.5 → grafana.services.cybacad.lab.
+8.5.0.10.in-addr.arpa.      IN      PTR     pulse.hq.cybacad.lab.       ; 10.0.5.8 → pulse.hq.cybacad.lab.
+8.5.0.10.in-addr.arpa.      IN      PTR     pulse.services.cybacad.lab. ; 10.0.5.8 → pulse.services.cybacad.lab.
+7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.hq.cybacad.lab.; 10.0.5.7 → ubuntumonitoring.hq.cybacad.lab.
+7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.services.cybacad.lab.; 10.0.5.7 → ubuntumonitoring.services.cybacad.lab.
 
-; PTR records for 10.0.5.x (core/services/hq)
-2.5.0.10.in-addr.arpa.      IN      PTR     nodeexp1.cybacad.lab.
-3.5.0.10.in-addr.arpa.      IN      PTR     nodeexp2.cybacad.lab.
-4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.cybacad.lab.
-5.5.0.10.in-addr.arpa.      IN      PTR     grafana.cybacad.lab.
-8.5.0.10.in-addr.arpa.      IN      PTR     pulse.cybacad.lab.
-7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.cybacad.lab.
-4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.hq.cybacad.lab.
-5.5.0.10.in-addr.arpa.      IN      PTR     grafana.hq.cybacad.lab.
-4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.services.cybacad.lab.
-5.5.0.10.in-addr.arpa.      IN      PTR     grafana.services.cybacad.lab.
-8.5.0.10.in-addr.arpa.      IN      PTR     pulse.hq.cybacad.lab.
-8.5.0.10.in-addr.arpa.      IN      PTR     pulse.services.cybacad.lab.
-7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.hq.cybacad.lab.
-7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.services.cybacad.lab.
-
-; PTR records for 40.10.10.10
-10.10.10.40.in-addr.arpa.   IN      PTR     wazuh.cybacad.lab.
-10.10.10.40.in-addr.arpa.   IN      PTR     wazuh.services.cybacad.lab.
+; PTR records for 40.10.10.10 (Wazuh monitoring)
+10.10.10.40.in-addr.arpa.   IN      PTR     wazuh.cybacad.lab.          ; 40.10.10.10 → wazuh.cybacad.lab.
+10.10.10.40.in-addr.arpa.   IN      PTR     wazuh.services.cybacad.lab. ; 40.10.10.10 → wazuh.services.cybacad.lab.

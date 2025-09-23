@@ -1,18 +1,20 @@
-$TTL    604800
+$TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). 604800 = 7 days. This tells DNS resolvers how long to cache these records.
+
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024091902      ; Serial
-                        604800          ; Refresh
-                        86400           ; Retry
-                        2419200         ; Expire
-                        604800 )        ; Negative Cache TTL
+                        2024091902      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
+                        86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
+                        2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
+                        604800          ; Negative Cache TTL: how long to cache negative responses (NXDOMAIN) (7 days).
+                        )               ; End of SOA record parameters.
 
-@       IN      NS      ns1.cybacad.lab.
+@       IN      NS      ns1.cybacad.lab.        ; This zone's authoritative name server is ns1.cybacad.lab.
 
-8       IN      PTR     cks-master-1.cybacad.lab.
-9       IN      PTR     cks-master-2.cybacad.lab.
-10      IN      PTR     cks-worker-1.cybacad.lab.
-3       IN      PTR     cks-worker-2.cybacad.lab.
-6       IN      PTR     cks-worker-3.cybacad.lab.
-7       IN      PTR     cks-worker-4.cybacad.lab.
-1       IN      PTR     pfsense.cybacad.lab.
-2       IN      PTR     windows.cybacad.lab.
+8       IN      PTR     cks-master-1.cybacad.lab.   ; 192.168.32.8 → cks-master-1.cybacad.lab. This PTR record maps the IP address 192.168.32.8 to the hostname cks-master-1.cybacad.lab for reverse DNS lookups.
+9       IN      PTR     cks-master-2.cybacad.lab.   ; 192.168.32.9 → cks-master-2.cybacad.lab. This PTR record maps the IP address 192.168.32.9 to the hostname cks-master-2.cybacad.lab for reverse DNS lookups.
+10      IN      PTR     cks-worker-1.cybacad.lab.   ; 192.168.32.10 → cks-worker-1.cybacad.lab. This PTR record maps the IP address 192.168.32.10 to the hostname cks-worker-1.cybacad.lab for reverse DNS lookups.
+3       IN      PTR     cks-worker-2.cybacad.lab.   ; 192.168.32.3 → cks-worker-2.cybacad.lab. This PTR record maps the IP address 192.168.32.3 to the hostname cks-worker-2.cybacad.lab for reverse DNS lookups.
+6       IN      PTR     cks-worker-3.cybacad.lab.   ; 192.168.32.6 → cks-worker-3.cybacad.lab. This PTR record maps the IP address 192.168.32.6 to the hostname cks-worker-3.cybacad.lab for reverse DNS lookups.
+7       IN      PTR     cks-worker-4.cybacad.lab.   ; 192.168.32.7 → cks-worker-4.cybacad.lab. This PTR record maps the IP address 192.168.32.7 to the hostname cks-worker-4.cybacad.lab for reverse DNS lookups.
+1       IN      PTR     pfsense.cybacad.lab.        ; 192.168.32.1 → pfsense.cybacad.lab. This PTR record maps the IP address 192.168.32.1 to the hostname pfsense.cybacad.lab for reverse DNS lookups.
+2       IN      PTR     windows.cybacad.lab.        ; 192.168.32.2 → windows.cybacad.lab. This PTR record maps the IP address 192.168.32.2 to the hostname windows.cybacad.lab for reverse DNS lookups.

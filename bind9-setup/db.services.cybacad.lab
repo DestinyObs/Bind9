@@ -1,32 +1,26 @@
-$TTL    604800
+$TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). 604800 = 7 days. This tells DNS resolvers how long to cache these records.
+
 @       IN      SOA     ns1.services.cybacad.lab. admin.services.cybacad.lab. (
-                        2024060201      ; Serial
-                        604800          ; Refresh
-                        86400           ; Retry
-                        2419200         ; Expire
-                        604800 )        ; Negative Cache TTL
+                        2024060201      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
+                        86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
+                        2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
+                        604800 )        ; Negative Cache TTL: how long to cache negative responses (NXDOMAIN) (7 days).
 
-grafana         IN      A       10.0.5.5
-; Name servers
-@       IN      NS      ns1.services.cybacad.lab.
+@       IN      NS      ns1.services.cybacad.lab.        ; This zone's authoritative name server is ns1.services.cybacad.lab.
 
-; DNS Server (static IP)
-ns1     IN      A       172.16.40.3
-dns     IN      A       172.16.40.3
+ns1     IN      A       172.16.40.3                       ; The DNS server for this services zone, with its static IP address.
+dns     IN      A       172.16.40.3                       ; Alias for the DNS server (dns.services.cybacad.lab → ns1.services.cybacad.lab).
 
-; Core Services (Updated IPs)
-prometheus      IN      A       10.0.5.4
-grafana         IN      A       10.0.5.5
-pulse           IN      A       10.0.5.8
-ubuntumonitoring IN    A        10.0.5.7
-wazuh          IN      A        40.10.10.10
+prometheus      IN      A       10.0.5.4                  ; Prometheus monitoring server for services.
+grafana         IN      A       10.0.5.5                  ; Grafana dashboards server for services.
+pulse           IN      A       10.0.5.8                  ; Pulse service node for services.
+ubuntumonitoring IN    A        10.0.5.7                  ; Ubuntu monitoring node for services.
+wazuh          IN      A        40.10.10.10               ; Wazuh security monitoring server for services.
 
-; Service aliases
-metrics         IN      CNAME   prometheus
-monitor         IN      CNAME   grafana
+metrics         IN      CNAME   prometheus                 ; Alias for Prometheus (metrics.services.cybacad.lab → prometheus.services.cybacad.lab).
+monitor         IN      CNAME   grafana                    ; Alias for Grafana (monitor.services.cybacad.lab → grafana.services.cybacad.lab).
 
-
-; Future services (ready for deployment)
- 
-; cicd           IN      A       <future-cicd-ip>
-; db             IN      A       <future-db-ip>
+; Future services (ready for deployment, uncomment and update as needed)
+; cicd           IN      A       <future-cicd-ip>         ; Placeholder for CI/CD service.
+; db             IN      A       <future-db-ip>           ; Placeholder for database service.

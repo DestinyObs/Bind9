@@ -1,39 +1,34 @@
-$TTL    604800
+$TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). 604800 = 7 days. This tells DNS resolvers how long to cache these records.
+
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024060201      ; Serial
-                        604800          ; Refresh
-                        86400           ; Retry
-                        2419200         ; Expire
-                        604800 )        ; Negative Cache TTL
+                        2024060201      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
+                        86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
+                        2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
+                        604800 )        ; Negative Cache TTL: how long to cache negative responses (NXDOMAIN) (7 days).
 
-; Name servers
-@       IN      NS      ns1.cybacad.lab.
+@       IN      NS      ns1.cybacad.lab.        ; This zone's authoritative name server is ns1.cybacad.lab.
 
-; Main DNS server (static IP)
-ns1     IN      A       172.16.40.3
+ns1     IN      A       172.16.40.3             ; The main DNS server for this domain, with its static IP address.
 
-; Proxmox nodes
-prox1   IN      A       192.168.3.8
-prox2   IN      A       192.168.3.9
+prox1   IN      A       192.168.3.8             ; Proxmox node 1. This A record maps the hostname prox1 to the IP 192.168.3.8.
+prox2   IN      A       192.168.3.9             ; Proxmox node 2. This A record maps the hostname prox2 to the IP 192.168.3.9.
 
-; Core infrastructure
-pfsense IN      A       192.168.32.1
-windows IN      A       192.168.32.2
-wazuh   IN      A       40.10.10.10
-nodeexp1 IN     A       10.0.5.2
-nodeexp2 IN     A       10.0.5.3
-prometheus IN   A       10.0.5.4
-grafana IN      A       10.0.5.5
-pulse IN        A       10.0.5.8
-ubuntumonitoring IN A   10.0.5.7
+pfsense IN      A       192.168.32.1            ; pfSense firewall/gateway. Maps pfsense to its management IP.
+windows IN      A       192.168.32.2            ; Windows server. Maps windows to its management IP.
+wazuh   IN      A       40.10.10.10             ; Wazuh security monitoring server.
+nodeexp1 IN     A       10.0.5.2                ; Node exporter 1 (monitoring agent).
+nodeexp2 IN     A       10.0.5.3                ; Node exporter 2 (monitoring agent).
+prometheus IN   A       10.0.5.4                ; Prometheus monitoring server.
+grafana IN      A       10.0.5.5                ; Grafana dashboards server.
+pulse IN        A       10.0.5.8                ; Pulse service node.
+ubuntumonitoring IN A   10.0.5.7                ; Ubuntu monitoring node.
 
-; Kubernetes Engine Nodes
-cks-master-1   IN      A       192.168.32.8
-cks-master-2   IN      A       192.168.32.9
-cks-worker-1   IN      A       192.168.32.10
-cks-worker-2   IN      A       192.168.32.3
-cks-worker-3   IN      A       192.168.32.6
-cks-worker-4   IN      A       192.168.32.7
+cks-master-1   IN      A       192.168.32.8     ; Kubernetes master node 1.
+cks-master-2   IN      A       192.168.32.9     ; Kubernetes master node 2.
+cks-worker-1   IN      A       192.168.32.10    ; Kubernetes worker node 1.
+cks-worker-2   IN      A       192.168.32.3     ; Kubernetes worker node 2.
+cks-worker-3   IN      A       192.168.32.6     ; Kubernetes worker node 3.
+cks-worker-4   IN      A       192.168.32.7     ; Kubernetes worker node 4.
 
-; Zone apex points to ns1
-@               IN      A       172.16.40.3
+@               IN      A       172.16.40.3     ; The zone apex (cybacad.lab itself) resolves to the DNS server's IP.

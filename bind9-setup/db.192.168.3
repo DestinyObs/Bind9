@@ -1,12 +1,14 @@
-$TTL    604800
+$TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). 604800 = 7 days. This tells DNS resolvers how long to cache these records.
+
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024091902      ; Serial
-                        604800          ; Refresh
-                        86400           ; Retry
-                        2419200         ; Expire
-                        604800 )        ; Negative Cache TTL
+                        2024091902      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
+                        86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
+                        2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
+                        604800          ; Negative Cache TTL: how long to cache negative responses (NXDOMAIN) (7 days).
+                        )               ; End of SOA record parameters.
 
-@       IN      NS      ns1.cybacad.lab.
+@       IN      NS      ns1.cybacad.lab.        ; This zone's authoritative name server is ns1.cybacad.lab.
 
-8       IN      PTR     prox1.cybacad.lab.
-9       IN      PTR     prox2.cybacad.lab.
+8       IN      PTR     prox1.cybacad.lab.      ; 192.168.3.8 → prox1.cybacad.lab. This PTR record maps the IP address 192.168.3.8 to the hostname prox1.cybacad.lab for reverse DNS lookups.
+9       IN      PTR     prox2.cybacad.lab.      ; 192.168.3.9 → prox2.cybacad.lab. This PTR record maps the IP address 192.168.3.9 to the hostname prox2.cybacad.lab for reverse DNS lookups.

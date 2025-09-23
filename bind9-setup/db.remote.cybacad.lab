@@ -1,20 +1,19 @@
-$TTL    604800
+$TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). 604800 = 7 days. This tells DNS resolvers how long to cache these records.
+
 @       IN      SOA     ns1.remote.cybacad.lab. admin.remote.cybacad.lab. (
-                        2024060201      ; Serial
-                        604800          ; Refresh
-                        86400           ; Retry
-                        2419200         ; Expire
-                        604800 )        ; Negative Cache TTL
+                        2024060201      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
+                        86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
+                        2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
+                        604800 )        ; Negative Cache TTL: how long to cache negative responses (NXDOMAIN) (7 days).
 
-; Name servers
-@       IN      NS      ns1.remote.cybacad.lab.
+@       IN      NS      ns1.remote.cybacad.lab.        ; This zone's authoritative name server is ns1.remote.cybacad.lab.
 
-; DNS Server (static IP)
-ns1     IN      A       172.16.40.3
+ns1     IN      A       172.16.40.3                   ; The DNS server for this remote zone, with its static IP address.
 
-; Remote site services (update as needed)
-; web     IN      A       212.100.90.102
-; api     IN      A       212.100.90.102
+; Example remote site services (uncomment and update as needed)
+; web     IN      A       212.100.90.102     ; Example web server at remote site.
+; api     IN      A       212.100.90.102     ; Example API server at remote site.
 
-; Convenience aliases
-; www     IN      CNAME   web
+; Example convenience aliases (uncomment if needed)
+; www     IN      CNAME   web                ; Alias for web server.

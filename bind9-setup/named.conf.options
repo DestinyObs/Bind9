@@ -1,34 +1,45 @@
 // named.conf.options - Bind9 global options
+//
+// This file configures global options for the Bind9 DNS server.
+// Every line is commented for clarity and future maintainability.
 
+// acl "trusted" { ... } defines an Access Control List named "trusted". This is a list of IPs/subnets allowed to query or recurse.
 acl "trusted" {
-    127.0.0.1;
-    ::1;
-    192.168.32.0/24;   // internal LAN - Proxmox nodes
-    172.16.40.0/24;    // DMZ network
+    127.0.0.1;         // localhost IPv4 (the server itself). Only this machine.
+    ::1;               // localhost IPv6. The IPv6 loopback address.
+    192.168.32.0/24;   // Internal LAN subnet (Proxmox nodes, etc). The /24 means all IPs from 192.168.32.0 to 192.168.32.255.
+    172.16.40.0/24;    // DMZ network subnet. All IPs from 172.16.40.0 to 172.16.40.255.
 };
 
 options {
-    directory "/var/cache/bind";
+    directory "/var/cache/bind"; // Sets the working directory for Bind9 cache and runtime files. All dynamic data is stored here.
 
-    // Forwarders (internet DNS servers) - used for recursive queries from internal hosts
+    // forwarders { ... } lists DNS servers to forward queries to if not found locally (for recursion).
     forwarders {
-        1.1.1.1;    // Cloudflare
-        8.8.8.8;    // Google
+        1.1.1.1;        // Cloudflare public DNS. Fast, privacy-focused resolver.
+        8.8.8.8;        // Google public DNS. Widely available, reliable.
+        192.168.32.1;   // pfSense local gateway. Used for internal/external resolution.
     };
 
-    // Listen on local + DMZ IP
+    // listen-on port 53 { ... } tells Bind9 which IPv4 addresses to listen for DNS queries on. 127.0.0.1 = localhost, 172.16.40.3 = DMZ IP.
     listen-on port 53 { 127.0.0.1; 172.16.40.3; };
+    // listen-on-v6 { none; } disables IPv6 DNS service. No IPv6 queries will be accepted.
     listen-on-v6 { none; };
 
-    // Restrict who can query & recurse
+    // allow-query { trusted; } only allows clients in the "trusted" ACL to make DNS queries.
     allow-query { trusted; };
+    // allow-recursion { trusted; } only allows clients in the "trusted" ACL to use recursion (resolve external domains).
     allow-recursion { trusted; };
-    allow-transfer { none; };         // no zone transfers by default (tighten security)
+    // allow-transfer { none; } disables all zone transfers (AXFR/IXFR) for security. No one can copy your zones.
+    allow-transfer { none; };
+    // recursion yes; enables recursive queries (required for clients to resolve external domains).
     recursion yes;
 
+    // dnssec-validation auto; enables DNSSEC validation for security. Bind9 will validate signed DNS responses.
     dnssec-validation auto;
 
-    // Security options
-    auth-nxdomain yes;    # conform to RFC1035
+    // auth-nxdomain yes; returns authoritative NXDOMAIN responses (RFC1035 compliance). Tells clients when a name truly doesn't exist.
+    auth-nxdomain yes;
+    // minimal-responses yes; only sends minimal required DNS response data (privacy, efficiency).
     minimal-responses yes;
 };
