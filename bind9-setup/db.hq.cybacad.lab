@@ -14,7 +14,6 @@ ns1     IN      A       172.16.40.3               ; The DNS server for this HQ z
 prometheus      IN      A       10.0.5.4          ; Prometheus monitoring server for HQ.
 grafana         IN      A       10.0.5.5          ; Grafana dashboards server for HQ.
 pulse           IN      A       10.0.5.8          ; Pulse service node for HQ.
-ubuntumonitoring IN    A       10.0.5.7           ; Ubuntu monitoring node for HQ.
 
 metrics         IN      CNAME   prometheus         ; Alias for Prometheus (metrics.hq.cybacad.lab → prometheus.hq.cybacad.lab).
 monitor         IN      CNAME   grafana            ; Alias for Grafana (monitor.hq.cybacad.lab → grafana.hq.cybacad.lab).

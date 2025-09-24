@@ -22,7 +22,6 @@ nodeexp2 IN     A       10.0.5.3                ; Node exporter 2 (monitoring ag
 prometheus IN   A       10.0.5.4                ; Prometheus monitoring server.
 grafana IN      A       10.0.5.5                ; Grafana dashboards server.
 pulse IN        A       10.0.5.8                ; Pulse service node.
-ubuntumonitoring IN A   10.0.5.7                ; Ubuntu monitoring node.
 
 cks-master-1   IN      A       192.168.32.8     ; Kubernetes master node 1.
 cks-master-2   IN      A       192.168.32.9     ; Kubernetes master node 2.

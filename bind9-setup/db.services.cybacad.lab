@@ -15,7 +15,6 @@ dns     IN      A       172.16.40.3                       ; Alias for the DNS se
 prometheus      IN      A       10.0.5.4                  ; Prometheus monitoring server for services.
 grafana         IN      A       10.0.5.5                  ; Grafana dashboards server for services.
 pulse           IN      A       10.0.5.8                  ; Pulse service node for services.
-ubuntumonitoring IN    A        10.0.5.7                  ; Ubuntu monitoring node for services.
 wazuh          IN      A        40.10.10.10               ; Wazuh security monitoring server for services.
 
 metrics         IN      CNAME   prometheus                 ; Alias for Prometheus (metrics.services.cybacad.lab → prometheus.services.cybacad.lab).

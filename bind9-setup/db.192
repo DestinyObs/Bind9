@@ -30,15 +30,6 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
 4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.cybacad.lab.     ; 10.0.5.4 → prometheus.cybacad.lab.
 5.5.0.10.in-addr.arpa.      IN      PTR     grafana.cybacad.lab.        ; 10.0.5.5 → grafana.cybacad.lab.
 8.5.0.10.in-addr.arpa.      IN      PTR     pulse.cybacad.lab.          ; 10.0.5.8 → pulse.cybacad.lab.
-7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.cybacad.lab.; 10.0.5.7 → ubuntumonitoring.cybacad.lab.
-4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.hq.cybacad.lab.  ; 10.0.5.4 → prometheus.hq.cybacad.lab.
-5.5.0.10.in-addr.arpa.      IN      PTR     grafana.hq.cybacad.lab.     ; 10.0.5.5 → grafana.hq.cybacad.lab.
-4.5.0.10.in-addr.arpa.      IN      PTR     prometheus.services.cybacad.lab.; 10.0.5.4 → prometheus.services.cybacad.lab.
-5.5.0.10.in-addr.arpa.      IN      PTR     grafana.services.cybacad.lab.; 10.0.5.5 → grafana.services.cybacad.lab.
-8.5.0.10.in-addr.arpa.      IN      PTR     pulse.hq.cybacad.lab.       ; 10.0.5.8 → pulse.hq.cybacad.lab.
-8.5.0.10.in-addr.arpa.      IN      PTR     pulse.services.cybacad.lab. ; 10.0.5.8 → pulse.services.cybacad.lab.
-7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.hq.cybacad.lab.; 10.0.5.7 → ubuntumonitoring.hq.cybacad.lab.
-7.5.0.10.in-addr.arpa.      IN      PTR     ubuntumonitoring.services.cybacad.lab.; 10.0.5.7 → ubuntumonitoring.services.cybacad.lab.
 
 ; PTR records for 40.10.10.10 (Wazuh monitoring)
 10.10.10.40.in-addr.arpa.   IN      PTR     wazuh.cybacad.lab.          ; 40.10.10.10 → wazuh.cybacad.lab.
