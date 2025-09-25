@@ -1,7 +1,7 @@
 $TTL    604800                  ; $TTL sets the default Time To Live for all records in this file (in seconds). 604800 = 7 days. This tells DNS resolvers how long to cache these records.
 
 @       IN      SOA     ns1.cybacad.lab. admin.cybacad.lab. (
-                        2024091902      ; Serial number for the zone. Increment this every time you change the file so secondaries know to update.
+                        2024092501      ; Serial number for the zone. Incremented for prowler PTR addition.
                         604800          ; Refresh interval: how often (in seconds) a secondary DNS checks for updates (7 days).
                         86400           ; Retry interval: if refresh fails, how long to wait before retrying (1 day).
                         2419200         ; Expire: how long before secondary DNS considers data invalid if it can't reach master (28 days).
@@ -15,3 +15,4 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
 4       IN      PTR     prometheus.cybacad.lab.     ; 10.0.5.4 → prometheus.cybacad.lab. This PTR record maps the IP address 10.0.5.4 to the hostname prometheus.cybacad.lab for reverse DNS lookups.
 5       IN      PTR     grafana.cybacad.lab.        ; 10.0.5.5 → grafana.cybacad.lab. This PTR record maps the IP address 10.0.5.5 to the hostname grafana.cybacad.lab for reverse DNS lookups.
 8       IN      PTR     pulse.cybacad.lab.          ; 10.0.5.8 → pulse.cybacad.lab. This PTR record maps the IP address 10.0.5.8 to the hostname pulse.cybacad.lab for reverse DNS lookups.
+20      IN      PTR     prowler.cybacad.lab.        ; 10.0.5.20 → prowler.cybacad.lab. This PTR record maps the IP address 10.0.5.20 to the hostname prowler.cybacad.lab for reverse DNS lookups.

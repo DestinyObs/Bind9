@@ -21,7 +21,9 @@ nodeexp1 IN     A       10.0.5.2                ; Node exporter 1 (monitoring ag
 nodeexp2 IN     A       10.0.5.3                ; Node exporter 2 (monitoring agent).
 prometheus IN   A       10.0.5.4                ; Prometheus monitoring server.
 grafana IN      A       10.0.5.5                ; Grafana dashboards server.
+
 pulse IN        A       10.0.5.8                ; Pulse service node.
+prowler IN      A       10.0.5.20               ; Prowler security tool node.
 
 cks-master-1   IN      A       192.168.32.8     ; Kubernetes master node 1.
 cks-master-2   IN      A       192.168.32.9     ; Kubernetes master node 2.
