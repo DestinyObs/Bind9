@@ -18,11 +18,29 @@ CONTAINER_PORT=80
 # To re-enable, uncomment the relevant sections and update nginx.conf for HTTPS
 
 
-# Stop and remove any existing container
-sudo docker rm -f $CONTAINER_NAME 2>/dev/null || true
+
+# --- PURGE ALL DOCKER RESOURCES (containers, images, volumes) ---
+echo "Stopping all running Docker containers..."
+sudo docker stop $(sudo docker ps -aq) 2>/dev/null || true
+
+echo "Removing all Docker containers..."
+sudo docker rm $(sudo docker ps -aq) 2>/dev/null || true
+
+echo "Removing all Docker images..."
+sudo docker rmi -f $(sudo docker images -aq) 2>/dev/null || true
+
+echo "Removing all Docker volumes..."
+sudo docker volume rm $(sudo docker volume ls -q) 2>/dev/null || true
+
+echo "Docker system prune (removes all unused data)..."
+sudo docker system prune -af --volumes
+
+echo "All Docker containers, images, and volumes have been purged."
+
+# --- END PURGE ---
 
 
-# Run the Nginx container with the custom config (HTTP only)
+(Optional) To redeploy Nginx, uncomment and fix config/port issues first.
 sudo docker run -d \
   --name $CONTAINER_NAME \
   -p $HOST_PORT:$CONTAINER_PORT \
@@ -31,7 +49,7 @@ sudo docker run -d \
   nginx:latest
 
 
-# Wait a moment for Nginx to start
+Wait a moment for Nginx to start
 sleep 2
 
 # Show running container
@@ -47,6 +65,6 @@ sudo docker logs --tail 20 $CONTAINER_NAME
 
 
 # Print success message
-echo "Nginx reverse proxy is running on port $HOST_PORT (HTTP only)."
-echo "Check your DNS and try accessing your lab domains via the proxy."
-echo "Let's Encrypt/HTTPS is currently disabled for internal domains."
+echo "All Docker resources have been purged. Nginx is not running."
+echo "If Nginx was restarting, it is usually due to a config error (nginx.conf syntax), missing files, or port 80 already in use."
+echo "Fix config/port issues before redeploying."
