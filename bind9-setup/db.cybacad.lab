@@ -9,7 +9,7 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
 
 @       IN      NS      ns1.cybacad.lab.        ; This zone's authoritative name server is ns1.cybacad.lab.
 
-ns1     IN      A       172.16.40.3             ; The main DNS server for this domain, with its static IP address.
+ns1     IN      A       172.16.40.4             ; The main DNS server for this domain, with its static IP address (updated).
 
 prox1   IN      A       192.168.3.8             ; Proxmox node 1. This A record maps the hostname prox1 to the IP 192.168.3.8.
 prox2   IN      A       192.168.3.9             ; Proxmox node 2. This A record maps the hostname prox2 to the IP 192.168.3.9.
@@ -32,4 +32,4 @@ cks-worker-2   IN      A       192.168.32.3     ; Kubernetes worker node 2.
 cks-worker-3   IN      A       192.168.32.6     ; Kubernetes worker node 3.
 cks-worker-4   IN      A       192.168.32.7     ; Kubernetes worker node 4.
 
-@               IN      A       172.16.40.3     ; The zone apex (cybacad.lab itself) resolves to the DNS server's IP.
+@               IN      A       172.16.40.4     ; The zone apex (cybacad.lab itself) resolves to the DNS server's IP (updated).
