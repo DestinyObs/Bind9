@@ -40,7 +40,7 @@ sudo docker volume rm $(sudo docker volume ls -q) 2>/dev/null || true
 echo "Pruning Docker system (removes all unused data)..."
 sudo docker system prune -af --volumes
 
-echo "✅ All Docker containers, images, and volumes have been purged."
+echo "All Docker containers, images, and volumes have been purged."
 
 # -------------------------------
 # Deploy Nginx reverse proxy
@@ -53,7 +53,7 @@ sudo docker run -d \
   --restart unless-stopped \
   nginx:latest
 
-echo "✅ Nginx reverse proxy is now running on port $HOST_PORT."
+echo "Nginx reverse proxy is now running on port $HOST_PORT."
 
 # -------------------------------
 # Post-deployment checks
@@ -70,7 +70,7 @@ sudo docker ps | grep "$CONTAINER_NAME" || echo "Nginx container not found."
 echo
 echo "=== Testing Nginx Configuration ==="
 sudo docker exec "$CONTAINER_NAME" nginx -t || {
-  echo "❌ Nginx configuration test failed."
+  echo "Nginx configuration test failed."
   exit 1
 }
 
@@ -80,5 +80,5 @@ echo "=== Nginx Logs (last 20 lines) ==="
 sudo docker logs --tail 20 "$CONTAINER_NAME"
 
 echo
-echo "🎉 Deployment complete. Nginx reverse proxy is up and running."
+echo "Deployment complete. Nginx reverse proxy is up and running."
 echo "If the container keeps restarting, check nginx.conf syntax and port availability."
