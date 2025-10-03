@@ -17,7 +17,7 @@ This guide explains, in very detailed steps, how the `deploy_bind9.sh` script au
 
 ## 4. Hostname & IP Detection
 - Reads the server's hostname from `/etc/hostname`.
-- Sets the DMZ IP (`DMZ_IP=172.16.40.3`) for all tests.
+- Sets the DMZ IP (`DMZ_IP=172.16.40.2`) for all tests.
 - Detects the server's main IP (prefers the DMZ IP if present).
 
 ## 5. Ensure Host A Record
@@ -46,14 +46,14 @@ This guide explains, in very detailed steps, how the `deploy_bind9.sh` script au
 
 ## 10. Automated DNS Testing
 - Defines lists of A and PTR records to test (forward and reverse lookups).
-- For each of 127.0.0.1 and 172.16.40.3:
+- For each of 127.0.0.1 and 172.16.40.2:
   - Tests all A records using `dig` and checks the returned IP matches the expected value.
   - Tests all PTR records (reverse lookups) and checks the returned hostname matches the expected value.
   - Prints OK or FAIL for each test, with details.
 - If any test fails, the script aborts and prints the error.
 
 ## 11. Final Output
-- Prints a completion message and a reminder to set client DNS to 172.16.40.3 if needed.
+- Prints a completion message and a reminder to set client DNS to 172.16.40.2 if needed.
 
 ---
 

@@ -9,7 +9,7 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
 
 @       IN      NS      ns1.hq.cybacad.lab.        ; This zone's authoritative name server is ns1.hq.cybacad.lab.
 
-ns1     IN      A       172.16.40.3               ; The DNS server for this HQ zone, with its static IP address.
+ns1     IN      A       172.16.40.2               ; The DNS server for this HQ zone, with its static IP address (updated to .2).
 
 prometheus      IN      A       10.0.5.4          ; Prometheus monitoring server for HQ.
 grafana         IN      A       10.0.5.5          ; Grafana dashboards server for HQ.

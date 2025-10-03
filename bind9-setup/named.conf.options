@@ -21,8 +21,8 @@ options {
         192.168.32.1;   // pfSense local gateway. Used for internal/external resolution.
     };
 
-    // listen-on port 53 { ... } tells Bind9 which IPv4 addresses to listen for DNS queries on. 127.0.0.1 = localhost, 172.16.40.4 = DMZ IP (updated).
-    listen-on port 53 { 127.0.0.1; 172.16.40.4; };
+    // listen-on port 53 { ... } tells Bind9 which IPv4 addresses to listen for DNS queries on. 127.0.0.1 = localhost, 172.16.40.2 = DMZ IP (updated to .2).
+    listen-on port 53 { 127.0.0.1; 172.16.40.2; };
     // listen-on-v6 { none; } disables IPv6 DNS service. No IPv6 queries will be accepted.
     listen-on-v6 { none; };
 

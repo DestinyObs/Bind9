@@ -16,7 +16,7 @@ fi
 # Get server hostname and main IP
 HOSTNAME=$(cat /etc/hostname | tr -d '\n')
 # Force DMZ IP for testing
-DMZ_IP="172.16.40.3"
+DMZ_IP="172.16.40.2"
 SERVER_IP=$(ip -4 addr show | awk '/inet/ && !/127.0.0.1/ && !/docker/ {print $2}' | cut -d'/' -f1 | grep "$DMZ_IP" || echo "$DMZ_IP")
 
 # Update A record for hostname in db.cybacad.lab
@@ -111,11 +111,11 @@ test_cases=(
   "ubuntumonitoring.cybacad.lab 10.0.5.7"
   "grafana.hq.cybacad.lab 10.0.5.5"
   "prometheus.hq.cybacad.lab 10.0.5.4"
-  "ns1.cybacad.lab 172.16.40.3"
-  "ns1.hq.cybacad.lab 172.16.40.3"
-  "ns1.services.cybacad.lab 172.16.40.3"
-  "dns.services.cybacad.lab 172.16.40.3"
-  "ns1.remote.cybacad.lab 172.16.40.3"
+  "ns1.cybacad.lab 172.16.40.2"
+  "ns1.hq.cybacad.lab 172.16.40.2"
+  "ns1.services.cybacad.lab 172.16.40.2"
+  "dns.services.cybacad.lab 172.16.40.2"
+  "ns1.remote.cybacad.lab 172.16.40.2"
   "$HOSTNAME.cybacad.lab $SERVER_IP"
 )
 
@@ -157,4 +157,4 @@ for ip in 127.0.0.1 $DMZ_IP; do
 done
 
 echo "Bind9 deployment and test complete!"
-echo "If nslookup/dig fails on clients, set 'nameserver 172.16.40.3' in /etc/resolv.conf or configure DHCP/pfSense to use this DNS."
+echo "If nslookup/dig fails on clients, set 'nameserver 172.16.40.2' in /etc/resolv.conf or configure DHCP/pfSense to use this DNS."

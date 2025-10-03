@@ -57,7 +57,7 @@ Bind9 is the de facto standard open-source DNS server for Unix-like systems. It 
 ## 4. Network & Zone Architecture
 
 **Core Networks:**
-- DMZ: `172.16.40.0/24` (DNS server: `172.16.40.3`)
+- DMZ: `172.16.40.0/24` (DNS server: `172.16.40.2`)
 - Proxmox: `192.168.3.0/24`
 - Management: `192.168.32.0/24`
 - Monitoring: `10.0.5.0/24`
