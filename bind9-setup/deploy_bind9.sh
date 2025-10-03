@@ -108,7 +108,6 @@ test_cases=(
   "nodeexp1.cybacad.lab 10.0.5.2"
   "nodeexp2.cybacad.lab 10.0.5.3"
   "pulse.cybacad.lab 10.0.5.8"
-  "ubuntumonitoring.cybacad.lab 10.0.5.7"
   "grafana.hq.cybacad.lab 10.0.5.5"
   "prometheus.hq.cybacad.lab 10.0.5.4"
   "ns1.cybacad.lab 172.16.40.2"
@@ -136,7 +135,6 @@ ptr_cases=(
   "10.0.5.4 prometheus.cybacad.lab."
   "10.0.5.5 grafana.cybacad.lab."
   "10.0.5.8 pulse.cybacad.lab."
-  "10.0.5.7 ubuntumonitoring.cybacad.lab."
   "40.10.10.10 wazuh.cybacad.lab."
   "$SERVER_IP $HOSTNAME.cybacad.lab."
 )
