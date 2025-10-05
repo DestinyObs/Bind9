@@ -26,8 +26,6 @@ options {
     // listen-on-v6 { none; } disables IPv6 DNS service. No IPv6 queries will be accepted.
     listen-on-v6 { none; }; // Explicitly disable IPv6 DNS service
 
-    // Prevent Bind9 from returning AAAA (IPv6) records to IPv4 clients (extra safety)
-    filter-aaaa-on-v4 yes;
 
     // allow-query { trusted; } only allows clients in the "trusted" ACL to make DNS queries.
     allow-query { trusted; };
