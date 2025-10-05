@@ -9,7 +9,7 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
 
 @       IN      NS      ns1.remote.cybacad.lab.        ; This zone's authoritative name server is ns1.remote.cybacad.lab.
 
-ns1     IN      A       172.16.40.2                   ; The DNS server for this remote zone, with its static IP address (updated to .2).
+ns1     IN      A       172.16.40.3                   ; The DNS server for this remote zone, with its static IP address (updated to .3).
 
 ; Example remote site services (uncomment and update as needed)
 ; web     IN      A       212.100.90.102     ; Example web server at remote site.
