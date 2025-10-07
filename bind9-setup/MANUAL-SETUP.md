@@ -381,12 +381,12 @@ iface eth0 inet static
 Restart networking:
 
 ```bash
-sudo systemctl restart networking
-```
-
----
-
-
+8       IN      PTR     cksm1.cybacad.lab.
+9       IN      PTR     cksm2.cybacad.lab.
+5      IN      PTR     cksw1.cybacad.lab.
+3       IN      PTR     cksw2.cybacad.lab.
+6       IN      PTR     cksw3.cybacad.lab.
+7       IN      PTR     cksw4.cybacad.lab.
 ## 3. Create Bind9 Configuration Files (Manual Copy-Paste)
 
 You will create each config file by hand. Open the file with your editor (e.g. `sudo nano /etc/bind/named.conf.options`), erase any existing content, and paste exactly what is shown below.
