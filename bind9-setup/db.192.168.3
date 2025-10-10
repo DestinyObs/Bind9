@@ -12,3 +12,8 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
 
 8       IN      PTR     prox1.cybacad.lab.      ; 192.168.3.8 → prox1.cybacad.lab. This PTR record maps the IP address 192.168.3.8 to the hostname prox1.cybacad.lab for reverse DNS lookups.
 9       IN      PTR     prox2.cybacad.lab.      ; 192.168.3.9 → prox2.cybacad.lab. This PTR record maps the IP address 192.168.3.9 to the hostname prox2.cybacad.lab for reverse DNS lookups.
+2       IN      PTR     mgmt1.cybacad.lab.          ; 192.168.3.2 → mgmt1.cybacad.lab. Management node 1
+3       IN      PTR     mgmt2.cybacad.lab.          ; 192.168.3.3 → mgmt2.cybacad.lab. Management node 2
+4       IN      PTR     mgmt3.cybacad.lab.          ; 192.168.3.4 → mgmt3.cybacad.lab. Management node 3
+10      IN      PTR     jump.cybacad.lab.           ; 192.168.3.10 → jump.cybacad.lab. Jump host
+20      IN      PTR     backup.cybacad.lab.         ; 192.168.3.20 → backup.cybacad.lab. Backup server

@@ -9,11 +9,14 @@ $TTL    604800                  ; $TTL sets the default Time To Live for all rec
                         )               ; End of SOA record parameters.
 
 @       IN      NS      ns1.cybacad.lab.        ; This zone's authoritative name server is ns1.cybacad.lab.
-8.32.168.192.in-addr.arpa.  IN      PTR     cksm1.cybacad.lab.   ; 192.168.32.8 → cksm1.cybacad.lab.
-9.32.168.192.in-addr.arpa.  IN      PTR     cksm2.cybacad.lab.   ; 192.168.32.9 → cksm2.cybacad.lab.
-5.32.168.192.in-addr.arpa.  IN      PTR     cksw1.cybacad.lab.   ; 192.168.32.5 → cksw1.cybacad.lab.
-3.32.168.192.in-addr.arpa.  IN      PTR     cksw2.cybacad.lab.   ; 192.168.32.3 → cksw2.cybacad.lab.
-6.32.168.192.in-addr.arpa.  IN      PTR     cksw3.cybacad.lab.   ; 192.168.32.6 → cksw3.cybacad.lab.
-7.32.168.192.in-addr.arpa.  IN      PTR     cksw4.cybacad.lab.   ; 192.168.32.7 → cksw4.cybacad.lab.
-1       IN      PTR     pfsense.cybacad.lab.        ; 192.168.32.1 → pfsense.cybacad.lab. This PTR record maps the IP address 192.168.32.1 to the hostname pfsense.cybacad.lab for reverse DNS lookups.
-2       IN      PTR     windows.cybacad.lab.        ; 192.168.32.2 → windows.cybacad.lab. This PTR record maps the IP address 192.168.32.2 to the hostname windows.cybacad.lab for reverse DNS lookups.
+; --- Management & Infra Nodes ---
+1       IN      PTR     pfsense.cybacad.lab.        ; 192.168.32.1 → pfSense firewall/gateway
+2       IN      PTR     windows.cybacad.lab.        ; 192.168.32.2 → Windows server
+
+; --- Kubernetes Cluster Nodes ---
+3       IN      PTR     cksw2.cybacad.lab.          ; 192.168.32.3 → Kubernetes worker node 2
+5       IN      PTR     cksw1.cybacad.lab.          ; 192.168.32.5 → Kubernetes worker node 1
+6       IN      PTR     cksw3.cybacad.lab.          ; 192.168.32.6 → Kubernetes worker node 3
+7       IN      PTR     cksw4.cybacad.lab.          ; 192.168.32.7 → Kubernetes worker node 4
+8       IN      PTR     cksm1.cybacad.lab.          ; 192.168.32.8 → Kubernetes master node 1
+9       IN      PTR     cksm2.cybacad.lab.          ; 192.168.32.9 → Kubernetes master node 2
