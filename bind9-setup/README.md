@@ -82,6 +82,12 @@ Bind9 is the de facto standard open-source DNS server for Unix-like systems. It 
 | grafana.cybacad.lab       | 10.0.5.5        | Dashboards                      |
 | pulse.cybacad.lab         | 10.0.5.8        | Pulse service                   |
 | ubuntumonitoring.cybacad.lab | 10.0.5.7     | Monitoring node                 |
+| cksm1.cybacad.lab         | 192.168.32.8    | Kubernetes master 1             |
+| cksm2.cybacad.lab         | 192.168.32.9    | Kubernetes master 2             |
+| cksw1.cybacad.lab         | 192.168.32.10   | Kubernetes worker 1             |
+| cksw2.cybacad.lab         | 192.168.32.3    | Kubernetes worker 2             |
+| cksw3.cybacad.lab         | 192.168.32.6    | Kubernetes worker 3             |
+| cksw4.cybacad.lab         | 192.168.32.7    | Kubernetes worker 4             |
 
 ---
 

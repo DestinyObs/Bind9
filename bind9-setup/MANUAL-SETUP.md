@@ -36,12 +36,12 @@ pulse IN        A       10.0.5.8
 ubuntumonitoring IN A   10.0.5.7
 
 ; Kubernetes Engine Nodes
-cks-master-1   IN      A       192.168.32.8
-cks-master-2   IN      A       192.168.32.9
-cks-worker-1   IN      A       192.168.32.10
-cks-worker-2   IN      A       192.168.32.3
-cks-worker-3   IN      A       192.168.32.6
-cks-worker-4   IN      A       192.168.32.7
+cksm1   IN      A       192.168.32.8
+cksm2   IN      A       192.168.32.9
+cksw1   IN      A       192.168.32.5
+cksw2   IN      A       192.168.32.3
+cksw3   IN      A       192.168.32.6
+cksw4   IN      A       192.168.32.7
 
 ; Zone apex points to ns1
 @               IN      A       172.16.40.3
@@ -182,12 +182,12 @@ $TTL    604800
 
 @       IN      NS      ns1.cybacad.lab.
 
-8       IN      PTR     cks-master-1.cybacad.lab.
-9       IN      PTR     cks-master-2.cybacad.lab.
-10      IN      PTR     cks-worker-1.cybacad.lab.
-3       IN      PTR     cks-worker-2.cybacad.lab.
-6       IN      PTR     cks-worker-3.cybacad.lab.
-7       IN      PTR     cks-worker-4.cybacad.lab.
+8       IN      PTR     cksm1.cybacad.lab.
+9       IN      PTR     cksm2.cybacad.lab.
+5      IN      PTR     cksw1.cybacad.lab.
+3       IN      PTR     cksw2.cybacad.lab.
+6       IN      PTR     cksw3.cybacad.lab.
+7       IN      PTR     cksw4.cybacad.lab.
 1       IN      PTR     pfsense.cybacad.lab.
 2       IN      PTR     windows.cybacad.lab.
 ```
